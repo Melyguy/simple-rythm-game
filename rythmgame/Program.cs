@@ -1,12 +1,11 @@
 using System.Media;
+using System.Windows.Forms;
 
 namespace rythmgame
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+
         [STAThread]
         static void Main()
         {
