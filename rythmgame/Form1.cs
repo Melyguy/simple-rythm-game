@@ -1,15 +1,29 @@
+using System.Diagnostics;
+
 namespace rythmgame
 {
     public partial class Form1 : Form
     {
         System.Windows.Forms.Timer gameTimer = new System.Windows.Forms.Timer();
+        List<Beatnote> beatmap = new List<Beatnote>();
         List<Note> notes = new List<Note>();
         int virtualWidth = 800;
         int virtualHeight = 600;
 
+        public static int bpm = 120;
+        int msPerBeat = 60000 / bpm;
+
+        float traveltime = 2.0f;
+        
+        Stopwatch stopwatch = new Stopwatch();
+        float lastTime = 0f;
+
+
         float scaleX = 1f;
         float scaleY = 1f;
         int score = 0;
+
+        int spawnY = 0;
 
         public Form1()
         {
@@ -26,15 +40,17 @@ namespace rythmgame
                 );
             this.UpdateStyles();
 
+            stopwatch.Start();
+            lastTime = stopwatch.ElapsedMilliseconds/1000f;
             gameTimer.Interval = 16;
             gameTimer.Tick += GameLoop;
             gameTimer.Start();
 
             
-            notes.Add(new Note { lane = 0, y = 0 });
-            notes.Add(new Note { lane = 1, y = -100 });
-            notes.Add(new Note { lane = 2, y = -200 });
-            notes.Add(new Note { lane = 3, y = -300 });
+            beatmap.Add(new Beatnote { lane = 0, time = 1f });
+            beatmap.Add(new Beatnote { lane = 1, time = 3f });
+            beatmap.Add(new Beatnote { lane = 2, time = 2f});
+            beatmap.Add(new Beatnote { lane = 3, time = 3f });
         }
 
 
@@ -60,16 +76,48 @@ namespace rythmgame
             offsetY = (ClientSize.Height - virtualHeight * scaleY) / 2f;
         }
 
+
+
         void GameLoop(object sender, EventArgs e)
         {
             // Game logic and rendering code goes here
             Input();
+
+            float currentTime = stopwatch.ElapsedMilliseconds / 1000f;
+            float deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+
+            spawnNotes(currentTime);
+
             foreach (var note in notes)
             {
-                note.y += note.speed;
+                note.y += note.speed * deltaTime;
             }
             CheckMissedNotes();
             Invalidate();
+            
+
+
+
+        }
+
+        void spawnNotes(float currentTime)
+        {
+            for (int i = beatmap.Count - 1; i >= 0; i--)
+            {
+                float spawnTime = beatmap[i].time - traveltime;
+
+                if (currentTime >= spawnTime)
+                {
+                    notes.Add(new Note
+                    {
+                        lane = beatmap[i].lane,
+                        y = spawnY,
+                        speed = virtualHeight / traveltime
+                    });
+                    beatmap.RemoveAt(i);
+                }
+            }
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -95,6 +143,7 @@ namespace rythmgame
             e.Graphics.DrawString($"Score: {score}", new Font("Arial", 24), Brushes.White, 10, 10);
         }
 
+        
         void Input()
         {
             if ((Control.ModifierKeys & Keys.D) == Keys.D || IsKeyDown(Keys.D))
@@ -144,6 +193,7 @@ namespace rythmgame
                 if(note.y > this.ClientSize.Height && !note.hit)
                 {
                     score -= 10; // Penalize for missed note
+                    notes.Remove(note);
                 }
             }
         }
