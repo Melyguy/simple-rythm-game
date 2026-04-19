@@ -51,6 +51,10 @@ namespace rythmgame
             beatmap.Add(new Beatnote { lane = 1, time = 3f });
             beatmap.Add(new Beatnote { lane = 2, time = 2f});
             beatmap.Add(new Beatnote { lane = 3, time = 3f });
+            beatmap.Add(new Beatnote { lane = 0, time = 4f });
+            beatmap.Add(new Beatnote { lane = 1, time = 5f });
+            beatmap.Add(new Beatnote { lane = 2, time = 8f });
+            beatmap.Add(new Beatnote { lane = 3, time = 9f });
         }
 
 
@@ -175,27 +179,30 @@ namespace rythmgame
         void CheckHit(int lane)
         {
             float hitLineY = virtualHeight - 50;
-            foreach(var note in notes)
+            for (int i = notes.Count - 1; i >= 0; i--)
             {
-                if(note.lane == lane && Math.Abs(note.y - hitLineY) < 20 && !note.hit)
+                if (notes[i].lane == lane &&
+                    Math.Abs(notes[i].y - hitLineY) < 20 &&
+                    !notes[i].hit)
                 {
-                    note.hit = true;
                     score += 15;
-                    notes.Remove(note);
+                    notes.RemoveAt(i);
                     return;
                 }
             }
         }
         void CheckMissedNotes()
         {
-            foreach(var note in notes)
+
+            for(int i = notes.Count - 1; i >= 0; i--)
             {
-                if(note.y > this.ClientSize.Height && !note.hit)
+                if(notes[i].y > virtualHeight - 50 && !notes[i].hit)
                 {
                     score -= 10; // Penalize for missed note
-                    notes.Remove(note);
+                    notes.RemoveAt(i);
                 }
             }
+             
         }
     }
 }
