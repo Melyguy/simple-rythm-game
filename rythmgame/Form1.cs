@@ -13,6 +13,7 @@ namespace rythmgame
         public static int bpm = 120;
         int msPerBeat = 60000 / bpm;
 
+        List<string> beatmapsPaths = new List<string>();
         float traveltime = 2.0f;
 
         Stopwatch stopwatch = new Stopwatch();
@@ -61,8 +62,14 @@ namespace rythmgame
 
             foreach (string file in files)
             {
+                beatmapsPaths.Add(file);
                 listBoxMaps.Items.Add(file);
             }
+            Button playButton = new Button();
+            playButton.Location = new Point(50, 50);
+            playButton.Size = new Size(100, 30);
+
+
         }
         float offsetX = 0;
         float offsetY = 0;
@@ -82,6 +89,22 @@ namespace rythmgame
             offsetY = (ClientSize.Height - virtualHeight * scaleY) / 2f;
         }
 
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            if(listBoxMaps.SelectedItems.Count == -1)
+                return;
+
+            string path =
+                beatmapsPaths[listBoxMaps.SelectedIndex];
+            Beatmap beatmap = 
+                BeatmapLoader.Load(path);
+            gameform game =
+                new gameform(beatmap);
+
+            game.Show();
+
+            this.Hide();
+        }
 
 
 

@@ -10,6 +10,7 @@ namespace rythmgame
         List<Note> notes = new List<Note>();
         int virtualWidth = 800;
         int virtualHeight = 600;
+        public Beatmap currentBeatmap;
 
         public static int bpm = 120;
         int msPerBeat = 60000 / bpm;
@@ -18,17 +19,21 @@ namespace rythmgame
 
         Stopwatch stopwatch = new Stopwatch();
         float lastTime = 0f;
-
-
         float scaleX = 1f;
         float scaleY = 1f;
         int score = 0;
-
         int spawnY = 0;
 
-        public gameform()
+        public gameform(Beatmap beatmapData)
         {
             InitializeComponent();
+
+            currentBeatmap = beatmapData;
+
+            beatmap = new List<Beatnote>(currentBeatmap.notes);
+
+
+
 
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
@@ -48,16 +53,13 @@ namespace rythmgame
             gameTimer.Start();
 
 
-            beatmap.Add(new Beatnote { lane = 0, time = 1f });
-            beatmap.Add(new Beatnote { lane = 1, time = 3f });
-            beatmap.Add(new Beatnote { lane = 2, time = 2f });
-            beatmap.Add(new Beatnote { lane = 3, time = 3f });
-            beatmap.Add(new Beatnote { lane = 0, time = 4f });
-            beatmap.Add(new Beatnote { lane = 1, time = 5f });
-            beatmap.Add(new Beatnote { lane = 2, time = 8f });
-            beatmap.Add(new Beatnote { lane = 3, time = 9f });
+            GameStart();
         }
 
+        void GameStart()
+        {
+            
+        }
         private void InitializeComponent()
         {
             throw new NotImplementedException();
