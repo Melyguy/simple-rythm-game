@@ -11,8 +11,8 @@ public class Note
 	
 }
 
-class Beatnote
+public class Beatnote
 {
-	public int lane;
-	public float time;
+	public int lane { get; set; }
+	public float time { get; set; }
 }
