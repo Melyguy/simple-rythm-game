@@ -44,3 +44,45 @@ rythmgame/
 │
 └── README.md
 ```
+---------- 
+# 🧠 How It Works
+
+## Beatmap System
+
+Beatmaps are stored as JSON files inside the `Beatmaps` folder.
+
+Each note contains:
+
+* `lane` → which column the note appears in
+* `time` → when the note should hit the line (seconds)
+
+Example:
+
+```json
+{
+  "bpm": 120,
+  "notes": [
+    { "lane": 0, "time": 1.0 },
+    { "lane": 1, "time": 2.0 },
+    { "lane": 2, "time": 3.0 },
+    { "lane": 3, "time": 4.0 }
+  ]
+}
+```
+
+Notes are spawned based on their target hit time and travel toward the hit line.
+
+------
+# 🛠 Development Goals
+
+This project focuses on:
+
+* Learning game architecture
+* Real-time timing systems
+* File-driven content
+* Rendering in WinForms
+* Rhythm gameplay logic
+
+---
+
+
