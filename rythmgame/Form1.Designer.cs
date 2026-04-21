@@ -28,13 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            playButton = new Button();
             SuspendLayout();
+            // 
+            // playButton
+            // 
+            playButton.Location = new Point(301, 336);
+            playButton.Name = "playButton";
+            playButton.Size = new Size(193, 46);
+            playButton.TabIndex = 0;
+            playButton.Text = "Play";
+            playButton.UseVisualStyleBackColor = true;
+            playButton.Click += playButton_Click_1;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(playButton);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -42,5 +54,7 @@
         }
 
         #endregion
+
+        private Button playButton;
     }
 }

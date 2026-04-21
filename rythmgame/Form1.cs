@@ -89,23 +89,6 @@ namespace rythmgame
             offsetY = (ClientSize.Height - virtualHeight * scaleY) / 2f;
         }
 
-        private void playButton_Click(object sender, EventArgs e)
-        {
-            if(listBoxMaps.SelectedItems.Count == -1)
-                return;
-
-            string path =
-                beatmapsPaths[listBoxMaps.SelectedIndex];
-            Beatmap beatmap = 
-                BeatmapLoader.Load(path);
-            gameform game =
-                new gameform(beatmap);
-
-            game.Show();
-
-            this.Hide();
-        }
-
 
 
 
@@ -117,5 +100,21 @@ namespace rythmgame
             return (GetAsyncKeyState(key) & 0x8000) != 0;
         }
 
+        private void playButton_Click_1(object sender, EventArgs e)
+        {
+            if (listBoxMaps.SelectedItems.Count == -1)
+                return;
+
+            string path =
+                beatmapsPaths[listBoxMaps.SelectedIndex];
+            Beatmap beatmap =
+                BeatmapLoader.Load(path);
+            gameForm game =
+                new gameForm(beatmap);
+
+            game.Show();
+
+            this.Hide();
+        }
     }
 }
