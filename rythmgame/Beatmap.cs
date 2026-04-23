@@ -12,6 +12,6 @@ namespace rythmgame
         public string Url { get; set; }
         public int BPM { get; set; }
         public List<Beatnote> notes { get; set; }
-
+        public string BG_Url { get; set; }
     }
 }

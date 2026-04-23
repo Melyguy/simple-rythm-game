@@ -15,4 +15,5 @@ public class Beatnote
 {
 	public int lane { get; set; }
 	public float time { get; set; }
+	public string BG_Url { get; set; }
 }

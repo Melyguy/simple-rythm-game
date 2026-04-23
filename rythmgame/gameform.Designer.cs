@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace rythmgame
 {
@@ -32,6 +33,7 @@ namespace rythmgame
             currentBeatmap = beatmapData;
 
             beatmap = new List<Beatnote>(currentBeatmap.notes);
+            LoadBackgroundFromUrl(currentBeatmap.BG_Url);
 
 
 
@@ -62,6 +64,22 @@ namespace rythmgame
         float offsetX = 0;
         float offsetY = 0;
 
+        async Task LoadBackgroundFromUrl(string url)
+        {
+            try
+            {
+                using HttpClient client = new HttpClient();
+                byte[] imageBytes = await client.GetByteArrayAsync(url);
+                using MemoryStream ms = new MemoryStream(imageBytes);
+                using Image temp = Image.FromStream(ms);
+                this.BackgroundImage = new Bitmap(temp);
+                this.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Failed to load background image: " + ex.Message);
+            }
+        }
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);

@@ -113,7 +113,6 @@ namespace rythmgame
                 new gameForm(beatmap);
 
             game.Show();
-
             this.Hide();
         }
     }
